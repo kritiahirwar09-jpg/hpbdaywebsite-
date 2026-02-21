@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, My Love</title>
+
+    <!-- Google Fonts for Romantic Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- REQUIRED CDN LINKS -->
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- GSAP (Core) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        romantic: ['"Dancing Script"', 'cursive'],
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        cream: '#fdfbfb',
+                        blush: '#ffe4e1',
+                        skyblue: '#e0f7fa',
+                        accent: '#ffb6c1'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Soft, Animated Gradient Background */
+        body {
+            background: linear-gradient(-45deg, #fff0f5, #e0f7fa, #fffdd0, #ffe4e1);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Glassmorphism (Frosted Glass) Effect */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.45);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+        }
+
+        /* Floating Heart Styling */
+        .floating-heart {
+            position: absolute;
+            user-select: none;
+            pointer-events: none;
+            z-index: 0;
+            filter: drop-shadow(0 2px 4px rgba(255, 182, 193, 0.5));
+        }
+
+        /* Utility class to keep cards stacked beautifully */
+        .card-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            max-width: 28rem;
+            padding: 0 1rem;
+            z-index: 10;
+        }
+    </style>
+</head>
+<body class="font-sans text-slate-800 h-screen w-screen relative">
+
+    <!-- Container for Background Floating Hearts -->
+    <div id="hearts-container" class="absolute inset-0 overflow-hidden pointer-events-none"></div>
+
+    <!-- MAIN CARDS AREA -->
+    
+    <!-- Card 1: Happy Birthday -->
+    <div id="card1" class="card-container">
+        <div class="glass-card rounded-[2rem] p-8 text-center flex flex-col items-center">
+            <!-- Image Placeholder -->
+            <div class="w-48 h-48 bg-white/60 rounded-2xl p-2 shadow-sm mb-6 relative overflow-hidden group">
+                <!-- Using a cute placeholder GIF as fallback if your specific image name doesn't resolve -->
+                <img 
+                    src="milk(the white bear) and mocha (the broen bear).jpg" 
+                    onerror="this.onerror=null; this.src='https://media.tenor.com/719m3Yn7y4UAAAAi/milk-and-mocha.gif';" 
+                    alt="Milk and Mocha Bear" 
+                    class="w-full h-full object-cover rounded-xl transition-transform duration-500 group-hover:scale-105"
+                >
+            </div>
+            
+            <h1 class="font-romantic text-5xl text-pink-500 mb-4 drop-shadow-sm">Happy Birthday!</h1>
+            <p class="text-base text-slate-700 mb-8 leading-relaxed px-2">
+                To the one who makes every ordinary moment feel like a beautiful fairy tale. You are my greatest adventure and my safest place.
+            </p>
+            
+            <button onclick="transitionCard(1, 2)" class="bg-white/70 hover:bg-pink-400 hover:text-white text-pink-500 border border-pink-200 font-semibold py-3 px-10 rounded-full transition-all duration-300 shadow-[0_4px_15px_rgba(255,182,193,0.4)] hover:shadow-[0_4px_20px_rgba(255,182,193,0.6)]">
+                Next
+            </button>
+        </div>
+    </div>
+
+    <!-- Card 2: Things I Adore -->
+    <div id="card2" class="card-container" style="display: none; opacity: 0;">
+        <div class="glass-card rounded-[2rem] p-8 text-center flex flex-col items-center">
+            <h2 class="font-romantic text-4xl text-pink-500 mb-6 drop-shadow-sm">Things I Adore</h2>
+            
+            <ul class="text-left space-y-5 mb-8 text-slate-700 text-sm md:text-base px-2 w-full">
+                <li class="flex items-start bg-white/30 p-3 rounded-xl">
+                    <span class="text-pink-400 mr-3 text-lg">♥</span> 
+                    <span>just thiking about you lucky i am to have a guy who's lowky the sweetest person i know.</span>
+                </li>
+                <li class="flex items-start bg-white/30 p-3 rounded-xl">
+                    <span class="text-pink-400 mr-3 text-lg">♥</span> 
+                    <span>i love how calm and steady you are. you don't have to say alot for me to feel how much you care, and that means the world to me. thanks foe being my fav person<3.</span>
+                </li>
+                <li class="flex items-start bg-white/30 p-3 rounded-xl">
+                    <span class="text-pink-400 mr-3 text-lg">♥</span> 
+                    <span>your're lucky you're so cute, otherwise your 'nonchalant' attitude might actually work on me. (just kidding, im obsessed with you).</span>
+                </li>
+            </ul>
+            
+            <button onclick="transitionCard(2, 3)" class="bg-white/70 hover:bg-pink-400 hover:text-white text-pink-500 border border-pink-200 font-semibold py-3 px-10 rounded-full transition-all duration-300 shadow-[0_4px_15px_rgba(255,182,193,0.4)] hover:shadow-[0_4px_20px_rgba(255,182,193,0.6)]">
+                Next
+            </button>
+        </div>
+    </div>
+
+    <!-- Card 3: My Wish for You -->
+    <div id="card3" class="card-container" style="display: none; opacity: 0;">
+        <div class="glass-card rounded-[2rem] p-8 text-center flex flex-col items-center">
+            <div class="mb-4 text-pink-400">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto" fill="currentColor" viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            </div>
+            
+            <h2 class="font-romantic text-4xl text-pink-500 mb-4 drop-shadow-sm">My Wish for You</h2>
+            
+            <p class="text-base text-slate-700 mb-8 leading-relaxed italic px-2 bg-white/20 p-4 rounded-xl border border-white/40">
+                "Happy Birthday to the one who is worth every single mile between us. I might not be there to hold your hand today, but I’m holding you in my heart"
+            </p>
+            
+            <button onclick="triggerCelebrate()" class="bg-gradient-to-r from-pink-400 to-rose-400 hover:from-pink-500 hover:to-rose-500 text-white font-semibold py-3 px-10 rounded-full transition-all duration-300 shadow-[0_4px_15px_rgba(244,63,94,0.4)] transform hover:scale-105">
+                Celebrate! 🎉
+            </button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // 1. Initial Load Animation
+        window.onload = () => {
+            gsap.fromTo("#card1", 
+                { opacity: 0, y: 30, scale: 0.95 }, 
+                { opacity: 1, y: 0, scale: 1, duration: 1, ease: "power3.out" }
+            );
+        };
+
+        // 2. Smooth Card Transitions
+        function transitionCard(current, next) {
+            const currentCard = document.getElementById(`card${current}`);
+            const nextCard = document.getElementById(`card${next}`);
+            
+            // Animate current card out
+            gsap.to(currentCard, {
+                opacity: 0, 
+                scale: 0.9, 
+                y: -30,
+                duration: 0.5, 
+                ease: "power2.in",
+                onComplete: () => {
+                    currentCard.style.display = 'none';
+                    nextCard.style.display = 'block';
+                    
+                    // Animate next card in
+                    gsap.fromTo(nextCard, 
+                        { opacity: 0, scale: 1.1, y: 30 }, 
+                        { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.2)" }
+                    );
+                }
+            });
+        }
+
+        // 3. Floating Heart Confetti Background (GSAP)
+        const container = document.getElementById('hearts-container');
+        const heartColors = ['#ffb6c1', '#ffc0cb', '#f8c8dc', '#ffffff', '#e0f7fa'];
+
+        function spawnHeart() {
+            const heart = document.createElement('div');
+            heart.innerHTML = '♥';
+            heart.classList.add('floating-heart');
+            
+            // Randomize properties
+            const startX = Math.random() * window.innerWidth;
+            const size = Math.random() * 20 + 10; // 10px to 30px
+            const duration = Math.random() * 6 + 4; // 4s to 10s
+            
+            heart.style.left = `${startX}px`;
+            heart.style.fontSize = `${size}px`;
+            heart.style.bottom = '-40px'; // Start below screen
+            heart.style.color = heartColors[Math.floor(Math.random() * heartColors.length)];
+            heart.style.opacity = Math.random() * 0.5 + 0.3;
+            
+            container.appendChild(heart);
+            
+            // Animate using GSAP
+            gsap.to(heart, {
+                y: -window.innerHeight - 100,
+                x: `+=${Math.random() * 150 - 75}`, // Drift left/right
+                rotation: Math.random() * 360,
+                duration: duration,
+                ease: "none",
+                onComplete: () => {
+                    heart.remove(); // Cleanup DOM
+                }
+            });
+        }
+
+        // Continually spawn floating hearts in the background
+        setInterval(spawnHeart, 400);
+
+        // 4. "Celebrate" Button Confetti Explosion (canvas-confetti)
+        function triggerCelebrate() {
+            const duration = 5 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 100 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 50 * (timeLeft / duration);
+                // Trigger confetti from left and right edges
+                confetti(Object.assign({}, defaults, { 
+                    particleCount, 
+                    origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+                    colors: ['#ffb6c1', '#ffffff', '#e0f7fa', '#ff69b4']
+                }));
+                confetti(Object.assign({}, defaults, { 
+                    particleCount, 
+                    origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+                    colors: ['#ffb6c1', '#ffffff', '#e0f7fa', '#ff69b4']
+                }));
+            }, 250);
+            
+            // Give button a little pulse effect when clicked
+            gsap.to("#card3 button", {scale: 1.1, duration: 0.1, yoyo: true, repeat: 1});
+        }
+    </script>
+</body>
+</html>
